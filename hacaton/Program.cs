@@ -534,7 +534,7 @@ namespace MainCardObject
                     {
                         connection.Close();
                         ForegroundColor = ConsoleColor.Red;
-                        WriteLine("Обект не найден!!!");
+                        WriteLine("Объект не найден!!!");
                         ResetColor();
                         throw new Exception("");
                     }
@@ -732,48 +732,62 @@ namespace MainCardObject
 
             Clear();
             CardObject card = new CardObject();
+            ForegroundColor = ConsoleColor.Cyan;
             //---------------------------
-            Console.Write("Введите название объекта: ");
-            string temp = Console.ReadLine();
+            Write("Введите название объекта: ");
+            ResetColor();
+            string temp = ReadLine();
             card.nameObject = temp;
+            ForegroundColor = ConsoleColor.Cyan;
             //---------------------------
-            Console.Write("Введите адрес объекта: ");
-            temp = Console.ReadLine();
+            Write("Введите адрес объекта: ");
+            ResetColor();
+            temp = ReadLine();
             card.adress = temp;
             //---------------------------
             do
             {
-                Console.Write("Введите кадастровый номер: ");
-                temp = Console.ReadLine();
+                ForegroundColor = ConsoleColor.Cyan;
+                Write("Введите кадастровый номер: ");
+                ResetColor();
+                temp = ReadLine();
                 temp = CardObject.CadastarlValidation(temp);
                 if (temp == "")
                 {
-                    Console.WriteLine("Неверно введен кадастровый номер!!");
+                    ForegroundColor = ConsoleColor.Red;
+                    WriteLine("Неверно введен кадастровый номер!!");
+                    ResetColor();
                 }
             } while (temp == "");
             card.cadastralNumber = temp;
             //---------------------------
             int tempI;
-            Console.Write("Введите количество этажей(0 - если нельзя определить): ");
+            ForegroundColor = ConsoleColor.Cyan;
+            Write("Введите количество этажей(0 - если нельзя определить): ");
+            ResetColor();
             bool flag;
             do
             {
                 flag = Int32.TryParse(ReadLine(), out tempI);
                 if (!flag && tempI < 0)
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Некорретные данные!!");
+                    ResetColor();
                 }
             } while (!flag && tempI < 0);
             card.countFloors = tempI;
             //---------------------------
             float tempF;
-            Console.Write("Введите площадь объекта: ");
+            Write("Введите площадь объекта: ");
             do
             {
                 flag = float.TryParse(ReadLine(), out tempF);
                 if (!flag && tempF < 0)
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Некорретные данные!!");
+                    ResetColor();
                 }
             } while (!flag && tempF < 0);
             card.square = tempF;
@@ -781,23 +795,32 @@ namespace MainCardObject
             List<BDFileWorker.Photo.Image> imgs = new List<BDFileWorker.Photo.Image>();
             do
             {
+                ForegroundColor = ConsoleColor.Cyan;
                 Write("Введите количесво фотографий(не меньше 1): ");
+                ResetColor();
                 flag = Int32.TryParse(ReadLine(), out tempI);
                 if (!flag || tempI < 1)
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Неверное количество!!");
+                    ResetColor();
+
                 }
             } while (!flag || tempI < 1);
             for (int i = 0; i < tempI; i++)
             {
                 do
                 {
+                    ForegroundColor = ConsoleColor.Cyan;
                     Write("Введите путь до изображения: ");
+                    ResetColor();
                     temp = ReadLine();
                     flag = File.Exists(temp);
                     if (!flag)
                     {
+                        ForegroundColor = ConsoleColor.Red;
                         WriteLine("Неверный путь или изображение не существует!");
+                        ResetColor();
                     }
                 } while (!flag);
                 imgs.Add(BD.PhotoWorker.LoadPhotoToBD(temp));
@@ -807,11 +830,15 @@ namespace MainCardObject
             DateTime tempDate;
             do
             {
+                ForegroundColor = ConsoleColor.Cyan;
                 Write("Введите дату постройки объекта (в формате год/месяц/день): ");
+                ResetColor();
                 flag = DateTime.TryParse(ReadLine(), out tempDate);
                 if (!flag)
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Неверный формат даты!!");
+                    ResetColor();
                 }
             } while (!flag);
             card.dateOfBuilding = tempDate;
@@ -819,67 +846,91 @@ namespace MainCardObject
             List<BDFileWorker.Document.DocumentType> docs = new List<BDFileWorker.Document.DocumentType>();
             do
             {
+                ForegroundColor = ConsoleColor.Cyan;
                 Write("Введите количесво документов(не меньше 1): ");
+                ResetColor();
                 flag = Int32.TryParse(ReadLine(), out tempI);
                 if (!flag || tempI < 1)
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Неверное количество!!");
+                    ResetColor();
                 }
             } while (!flag || tempI < 1);
             for (int i = 0; i < tempI; i++)
             {
                 do
                 {
+                    ForegroundColor = ConsoleColor.Cyan;
                     Write("Введите путь до документа: ");
+                    ResetColor();
                     temp = ReadLine();
                     flag = File.Exists(temp);
                     if (!flag)
                     {
+                        ForegroundColor = ConsoleColor.Red;
                         WriteLine("Неверный путь или файл не существует!!");
+                        ResetColor();
+                        
                     }
                 } while (!flag);
                 docs.Add(BD.DocumentWorker.LoadDocumentToBD(temp));
             }
             card.documents = docs;
             //---------------------------
+            ForegroundColor = ConsoleColor.Cyan;
             Write("Напишите какие работы надо выполнить: ");
+            ResetColor();
             temp = ReadLine();
             card.works = temp;
             //---------------------------
+            ForegroundColor = ConsoleColor.Cyan;
             Write("Введите заказчика(-ов): ");
+            ResetColor() ;
             temp = ReadLine();
             card.customer = temp;
             //---------------------------
+            ForegroundColor = ConsoleColor.Cyan;
             Write("Введите исполнителя(-ей): ");
+            ResetColor() ;
             temp = ReadLine();
             card.executor = temp;
             //---------------------------
             card.dateOfRegistration = DateTime.Now;
             //---------------------------
             do
+
             {
+                ForegroundColor = ConsoleColor.Cyan;
                 Write("Введите дату окончания работ по объекту (в формате год/месяц/день): ");
+                ResetColor();
                 flag = DateTime.TryParse(ReadLine(), out tempDate);
                 if (!flag)
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Неверный формат даты!!");
+                    ResetColor();
                 }
                 else
                 {
                     if (tempDate < card.dateOfBuilding || tempDate < card.dateOfRegistration)
                     {
+                        ForegroundColor = ConsoleColor.Red;
                         WriteLine("Дата окончания работ должна быть больше даты постройки и регистрации данной карточки!!!");
+                        ResetColor();
                         flag = false;
                     }
                 }
             } while (!flag);
             card.completionDate = tempDate;
             //---------------------------
+            ForegroundColor = ConsoleColor.Cyan;
             Write("Введите департамент который будет отслеживать работы: ");
+            ResetColor();
             temp = ReadLine();
             card.department = temp;
             BD.AddCard(new BDCardControl.BDCart(card));
-            Console.WriteLine();
+            WriteLine();
         }
 
         public void GetCardMenu()
@@ -893,7 +944,9 @@ namespace MainCardObject
                 try
                 {
                     flag = true;
+                    ForegroundColor = ConsoleColor.Cyan;
                     Write("Введите название объекта: ");
+                    ResetColor();
                     temp = ReadLine();
                     BDCardControl.BDCart card1 = BD.GetCard(temp);
                     cart = new CardObject(card1, BD);
@@ -902,23 +955,30 @@ namespace MainCardObject
                 catch (Exception ex)
                 {
                     flag = false;
-                    //WriteLine(ex.Message);
+                                                                                                                                        //WriteLine(ex.Message);
                 }
             } while (!flag);
             string isDownload;
             do
             {
-                Write("Скачать фотографии?\n[Y] - да\n[N] - нет\nВаш выбор: ");
+                ForegroundColor = ConsoleColor.Green;
+                WriteLine($"\t\t\t\tСкачать фотографии?\n");
+                WriteLine($"\t[Y] - да\n\t[N] - нет\n\tВаш выбор: ");
+                ResetColor();
                 isDownload = ReadLine();
                 if (isDownload != "Y" && isDownload != "N")
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Неверный выбор!!");
+                    ResetColor();
                 }
                 else if (isDownload == "Y")
                 {
                     do
                     {
+                        ForegroundColor = ConsoleColor.Cyan;
                         Write("Введите путь куда скачать фотографии: ");
+                        ResetColor();
                         string path = ReadLine();
                         flag = Directory.Exists(path);
                         if (!flag)
@@ -940,17 +1000,24 @@ namespace MainCardObject
             } while (isDownload != "N" && isDownload != "Y");
             do
             {
-                Write("Скачать документы?\n[Y] - да\n[N] - нет\nВаш выбор: ");
+                ForegroundColor = ConsoleColor.Green;
+                WriteLine($"\t\t\t\tСкачать документы?\n");
+                WriteLine($"\t[Y] - да\n\t[N] - нет\n\tВаш выбор: ");
+                ResetColor();
                 isDownload = ReadLine();
                 if (isDownload != "Y" && isDownload != "N")
                 {
+                    ForegroundColor = ConsoleColor.Red;
                     WriteLine("Неверный выбор!!");
+                    ResetColor();
                 }
                 else if (isDownload == "Y")
                 {
                     do
                     {
+                        ForegroundColor = ConsoleColor.Cyan;
                         Write("Введите путь куда скачать документы: ");
+                        ResetColor();
                         string path = ReadLine();
                         flag = Directory.Exists(path);
                         if (!flag)
@@ -970,7 +1037,7 @@ namespace MainCardObject
 
                 }
             } while (isDownload != "N" && isDownload != "Y");
-            Console.WriteLine();
+            WriteLine();
         }
 
         public void RemoveCardMenu()
@@ -979,11 +1046,13 @@ namespace MainCardObject
             bool flag;
             do
             {
+                ForegroundColor = ConsoleColor.Cyan;
                 Write("Введите название объекта: ");
+                ResetColor();
                 temp = ReadLine();
                 flag = BD.DeleteCard(temp);
             } while (!flag);
-            Console.WriteLine();
+            WriteLine();
         }
 
         public void DrawMainmenu()
@@ -992,12 +1061,17 @@ namespace MainCardObject
             do
             {
                 Clear();
-                Console.Write("[0] - Выход\n[1] - Создать карточку\n[2] - Посмотреть карточку\n[3] - Удалить карточку\nВаш выбор: ");
+                ForegroundColor = ConsoleColor.Cyan;
+                WriteLine("\t[1] - Создать карточку");
+                WriteLine("\t[2] - Посмотреть карточку");
+                WriteLine("\t[3] - Удалить карточку");
+                WriteLine("\t[0] - Выход\n\nВаш выбор: ");
+                ResetColor();
                 Int32.TryParse(ReadLine(), out choise);
                 switch (choise)
                 {
                     case 0:
-                        Console.WriteLine();
+                        WriteLine();
                         break;
                     case 1:
                         AddCardMenu();
@@ -1009,7 +1083,9 @@ namespace MainCardObject
                         RemoveCardMenu();
                         break;
                     default:
-                        Console.WriteLine("Неверный выбор!!");
+                        ForegroundColor = ConsoleColor.Red;
+                        WriteLine("Неверный выбор!!");
+                        ResetColor();
                         break;
                 }
             } while (choise != 0);
@@ -1021,6 +1097,10 @@ namespace ConsoleApp11
 {
     internal class Program
     {
+        private const int WIDTH = 50;
+        private const int HEIGHT = 15;
+        private const int DEPTH = 3;
+
         static string connectionString = "server=localhost;user=root;password=Rotter;database=user";
         static MySqlConnection connection;
         static MySqlCommand command;
@@ -1160,8 +1240,10 @@ namespace ConsoleApp11
                 connection.Open();
             } catch (Exception ex)
             {
+                ForegroundColor = ConsoleColor.Red;
                 WriteLine("Ошибка при подключение к MySql: " + ex.Message);
                 return;
+                ResetColor();
             }
             TableExists();
             MainMenuAuth();
@@ -1541,8 +1623,8 @@ namespace ConsoleApp11
                 ResetColor();
                 ReadKey();
                 UserMenu();
-              // WriteLine("Через 5 секунд вы будете возвращеные в меню...");
-                //Thread.Sleep(5000);
+                                                                                                                                         // WriteLine("Через 5 секунд вы будете возвращеные в меню...");
+                                                                                                                                         //Thread.Sleep(5000);
             } catch (Exception ex)
             {
                 ForegroundColor = ConsoleColor.Red;
@@ -1589,7 +1671,9 @@ namespace ConsoleApp11
                 reader.Close();
             if(reader.IsClosed)
             {
+                    ForegroundColor = ConsoleColor.Cyan;
                     Write("Нажмите Enter чтобы выйти в меню...");
+                    ResetColor(); 
                     ReadKey();
                     UserMenu();
             }   
@@ -1618,6 +1702,7 @@ namespace ConsoleApp11
             {
                 ForegroundColor = ConsoleColor.Red;
                 WriteLine("Ошибка создания таблицы." + ex.Message);
+                ResetColor();
             }
         }
         public static void DeleteUser()
@@ -1671,6 +1756,9 @@ namespace ConsoleApp11
                     ForegroundColor = ConsoleColor.Red;
                     WriteLine($"Не удалось найти пользователя с ID {userId}.");
                     ResetColor();
+                    WriteLine("Нажмите Enter чтобы продолжить...");
+                    ReadKey();
+                    UserMenu();
                 }
             }
             catch (Exception ex)
@@ -1678,6 +1766,7 @@ namespace ConsoleApp11
                 ForegroundColor = ConsoleColor.Red;
                 WriteLine($"Ошибка при удалении пользователя: {ex.Message}");
                 ResetColor();
+                WriteLine("Нажмите Enter чтобы продолжить...");
                 ReadKey();
                 UserMenu();
             }
@@ -1700,12 +1789,15 @@ namespace ConsoleApp11
                 {
                     ForegroundColor = ConsoleColor.Cyan;
                     WriteLine("Список ID:");
+                    ResetColor();
                     while (reader.Read())
                     {
                         int id = reader.GetInt32("id");
+                        ForegroundColor = ConsoleColor.Cyan;
                         WriteLine($"\tID: {id}");
+                        ResetColor();
                     }
-                    ResetColor();
+
                 }
                 else
                 {
@@ -1827,8 +1919,10 @@ namespace ConsoleApp11
 
 
         static void AddUserXML()
-        {
+        {            
+        
             Write("Введите путь до файла: ");
+            ResetColor();
             string filePath = ReadLine();
 
             try
@@ -1846,6 +1940,21 @@ namespace ConsoleApp11
                     string password = node.SelectSingleNode("password").InnerText;
                     string email = node.SelectSingleNode("email").InnerText;
 
+                    string checkUsernameQuery = "SELECT COUNT(*) FROM Users WHERE username = @username";
+                    command = new MySqlCommand(checkUsernameQuery, connection);
+                    command.Parameters.AddWithValue("@username", username);
+                    int usernameCount = (int)command.ExecuteScalar();
+                    if (usernameCount > 0)
+                    {
+                        ForegroundColor = ConsoleColor.Red;
+                        WriteLine($"Ошибка: Пользователь с username '{username}' уже существует.");
+                        ResetColor();
+                        WriteLine("Нажмите Enter чтобы продолжить...");
+                        ReadKey();
+                        UserMenu();
+                        return;
+                    }
+
                     string hashedPassword = PasswordHasher.HashPassword(password);
 
                     string query = "INSERT INTO Users (username, role, password, email, name, age) VALUES (@username, @role, @password, @email, @name, @age)";
@@ -1857,14 +1966,78 @@ namespace ConsoleApp11
                     command.Parameters.AddWithValue("@name", name);
                     command.Parameters.AddWithValue("@age", age);
                     command.ExecuteNonQuery();
-                    ForegroundColor = ConsoleColor.Green;
-                    WriteLine("Запись была успешно добавлена (XML)");
-                    ResetColor() ;
+                    char[,,] loadingBlock = new char[WIDTH, HEIGHT, DEPTH];
+                    for (int z = 0; z < DEPTH; z++)
+                    {
+                        for (int y = 0; y < HEIGHT; y++)
+                        {
+                            for (int x = 0; x < WIDTH; x++)
+                            {
+                                if (y == 0 || y == HEIGHT - 1 || x == 0 || x == WIDTH - 1)
+                                {
+                                    loadingBlock[x, y, z] = '█';
+                                }
+                                else
+                                {
+                                    loadingBlock[x, y, z] = ' ';
+                                }
+                            }
+                        }
+                    }
+                    CursorVisible = false;
+                    int loadingPercentage = 0;
+                    while (true)
+                    {
+
+                        Clear();
+
+
+                        for (int y = 0; y < HEIGHT; y++)
+                        {
+                            for (int x = 0; x < WIDTH; x++)
+                            {
+
+                                if (y > 0 && y < HEIGHT - 1 && x > 0 && x < WIDTH - 1 && x < (int)(loadingPercentage * (WIDTH - 2) / 100.0))
+                                {
+                                    ForegroundColor = ConsoleColor.Green;
+                                    Write('█');
+                                    ResetColor();
+                                }
+                                else
+                                {
+                                    Write(loadingBlock[x, y, (int)(DateTime.Now.Ticks / 100000000) % DEPTH]);
+                                }
+                            }
+                            WriteLine();
+                        }
+
+
+                        SetCursorPosition(WIDTH / 2 - 5, HEIGHT + 1);
+                        Write($"Загрузка: {loadingPercentage}%");
+
+
+                        loadingPercentage = (loadingPercentage + 1) % 101;
+
+
+                        if (loadingPercentage == 100)
+                        {
+                            Clear();
+                            ForegroundColor = ConsoleColor.Green;
+                            WriteLine(new string(' ', (WIDTH - 10) / 2) + "Запись была успешно добавлена (XML)!");
+                            ResetColor();
+                            WriteLine("Нажмите Enter чтобы продолжить...");
+                            ReadKey();
+                            UserMenu();
+                            break;
+                        }
+                    }
+                    Thread.Sleep(100);
                 }
             } catch (Exception ex)
             {
                 ForegroundColor = ConsoleColor.Red;
                 WriteLine("Ошибка при добовлние записи из XML файла. " + ex.Message);
+                ResetColor();
             }
         }
     }
